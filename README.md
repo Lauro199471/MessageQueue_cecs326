@@ -21,26 +21,37 @@ When a message is sent, its text is copied to the message queue. The msgsnd() an
   *The queue is removed
 
 ## Initialising the Message Queue 
-The msgget() function initializes a new message queue or returns the message queue identifier associated with the key parameter for an existing message queue.: 
+The msgget() function initializes a new message queue or returns the message queue identifier associated with the key parameter for an existing message queue: 
 
 msgget(key_t key, int msgflg):
+
 @param key: is used to identify a message queue
+
 @param msgflg: Operations and permissions flag. The value of msgflg is either zero or is obtained by performing an OR operation on one or more of the following constants: 
+
 S_IRUSR (0x00000100)
     Allow the owner of the message queue to read from it.
+
 S_IWUSR (0x00000080)
     Allow the owner of the message queue to write to it.
+
 S_IRGRP (0x00000020)
     Allow the group of the message queue to read from it.
+
 S_IWGRP (0x00000010)
     Allow the group of the message queue to write to it.
+
 S_IROTH (0x00000004)
     Allow others to read from the message queue.
+
 S_IWOTH (0x00000002)
     Allow others to write to the message queue.
+
 IPC_CREAT (0x00000200)
     Create the message queue if it does not exist.
+
 IPC_EXCL (0x00000400)
     Return an error if the IPC_CREAT flag is set and the message queue already exists.
+
 Return value: If successful, the return value will be the message queue identifier (a nonnegative integer), otherwise -1 with errno indicating the error. 
 
