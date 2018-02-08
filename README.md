@@ -20,4 +20,4 @@ When a message is sent, its text is copied to the message queue. The msgsnd() an
   
   *The queue is removed
 
-# Initialising the Message Queue 
+## Initialising the Message Queue 
