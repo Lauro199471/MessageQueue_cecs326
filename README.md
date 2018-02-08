@@ -4,6 +4,13 @@ Interprocess communication and basic coordination using message queue
 
 ** Notes **
 
+IPC: Inter-processing Communcaiton
+
 Message Queue: Two (or more) processes can exchange information via access to a common system message queue. 
 
 The sending process places via some (OS) message-passing module a message onto a queue which can be read by another process.
+
+Each message is given an identification or type so that processes can select the appropriate message
+
+Process must share a common key in order to gain access to the queue in the first place
+
