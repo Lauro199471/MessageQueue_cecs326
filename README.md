@@ -14,7 +14,9 @@ Before a process can send or receive a message, the queue must be initialized (t
 
 When a message is sent, its text is copied to the message queue. The msgsnd() and msgrcv() functions can be performed as either blocking or non-blocking operations. Non-blocking operations allow for asynchronous message transfer -- the process is not suspended as a result of sending or receiving a message. In blocking or synchronous message passing the sending process cannot continue until the message has been transferred or has even been acknowledged by a receiver. IPC signal and other mechanisms can be employed to implement such transfer. A blocked message operation remains suspended until one of the following three conditions occurs: 
 
-*The call succeeds
-*The process receives a signal
-*The queue is removed
+  *The call succeeds
+
+  *The process receives a signal
+  
+  *The queue is removed
 
