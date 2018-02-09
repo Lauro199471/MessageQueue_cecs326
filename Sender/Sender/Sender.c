@@ -26,7 +26,7 @@ int main()
                  S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH;
 
   key_t key = 1234;
-  message_buffer sbuf;
+  message_buffer sbuf; // Sender Buffer
   size_t buf_length;
 
   printf("Hello, World!-Sender\n");
