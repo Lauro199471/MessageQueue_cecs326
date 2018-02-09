@@ -29,6 +29,7 @@ int main()
   message_buffer sbuf;
   size_t buf_length;
 
+  printf("Hello, World!-Sender\n");
   printf("\nmsgget: Calling msgget(%d,%d)\n",key,msgflg);
 
   // Create a message queue , if returns a negative numbers means error
