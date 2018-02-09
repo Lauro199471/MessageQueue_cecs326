@@ -80,8 +80,11 @@ These actions are as follows:
     * The calling process receives a signal that is to be caught; in this case the message is not sent and the calling process resumes execution. 
 
 Upon successful completion, the following actions are taken with respect to the data structure associated with msqid: 
+    
     * msg_qnum is incremented by 1. 
+
     * msg_lspid is set equal to the process ID of the calling process. 
+
     * msg_stime is set equal to the current time. 
 
 
