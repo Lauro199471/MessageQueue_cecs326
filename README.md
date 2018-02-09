@@ -47,3 +47,22 @@ IPC_EXCL (0x00000400): Return an error if the IPC_CREAT flag is set and the mess
 
 Return value: If successful, the return value will be the message queue identifier (a nonnegative integer , msqid), otherwise -1 with errno indicating the error. 
 
+## Sending and Receiving Messages 
+The msgsnd() and msgrcv() functions send and receive messages, respectively.
+```C
+int msgsnd(int msqid, const void *msgp, size_t msgsz,int msgflg);
+int msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,int msgflg);
+```
+The msqid argument must be the ID of an existing message queue. The msgp argument is a pointer to a structure that contains the type of the message and its text.
+
+
+
+
+
+
+
+
+
+
+
+
