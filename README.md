@@ -59,7 +59,7 @@ example of what this user-defined buffer might look like:
 ```C
  struct mymsg 
  {
-   long msgtype;        /* message type */
+   long msgtype;      /* message type */
    char mtext[MSGSZ]; /* message text of length MSGSZ */
  }
 ```
@@ -69,12 +69,19 @@ The structure member msgtype is the received message's type as specified by the 
 
 The argument msgflg specifies the action to be taken if one or more of the following are true: 
 
-*
+* The number of bytes already on the queue is equal to msg_qbytes. 
+* The total number of messages on all queues system-wide is equal to the system-imposed limit. 
 
+These actions are as follows: 
+* If (msgflg & IPC_NOWAIT) is non-zero, the message will not be sent and the calling process will return immediately. 
+* If (msgflg & IPC_NOWAIT) is 0, the calling process will suspend execution until one of the following occurs: 
+    * The condition responsible for the suspension no longer exists, in which case the message is sent. 
+    * The message queue identifier msqid is removed from the system; when this occurs, errno is set equal to EIDRM and -1 is returned. 
+    * The calling process receives a signal that is to be caught; in this case the message is not sent and the calling process resumes execution. 
 
-
-
-
-
+Upon successful completion, the following actions are taken with respect to the data structure associated with msqid: 
+    * msg_qnum is incremented by 1. 
+    * msg_lspid is set equal to the process ID of the calling process. 
+    * msg_stime is set equal to the current time. 
 
 
