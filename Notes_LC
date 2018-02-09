@@ -1,0 +1,5 @@
+The key is an arbitrary value or one that can be derived from a common seed at run time. One way is with ftok() , which converts a filename to a key value that is unique within the system.
+
+ftok - generate an IPC key
+
+ftok("/tmp", key)
