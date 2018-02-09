@@ -22,9 +22,9 @@ When a message is sent, its text is copied to the message queue. The msgsnd() an
 
 ## Initialising the Message Queue 
 The msgget() function initializes a new message queue or returns the message queue identifier associated with the key parameter for an existing message queue: 
-
+```C
 msgget(key_t key, int msgflg):
-
+```
 @param key: is used to identify a message queue
 
 @param msgflg: Operations and permissions flag. The value of msgflg is either zero or is obtained by performing an OR operation on one or more of the following constants: 
@@ -53,9 +53,16 @@ The msgsnd() and msgrcv() functions send and receive messages, respectively.
 int msgsnd(int msqid, const void *msgp, size_t msgsz,int msgflg);
 int msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,int msgflg);
 ```
-The msqid argument must be the ID of an existing message queue. The msgp argument is a pointer to a structure that contains the type of the message and its text.
-
-
+The msqid argument must be the ID of an existing message queue. 
+The msgp  argument is a pointer to a structure that contains the type of the message and its text.
+example of what this user-defined buffer might look like: 
+```C
+ struct mymsg 
+ {
+   long mtype;        /* message type */
+   char mtext[MSGSZ]; /* message text of length MSGSZ */
+ }
+```
 
 
 
