@@ -54,6 +54,7 @@ int msgsnd(int msqid, const void *msgp, size_t msgsz,int msgflg);
 int msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,int msgflg);
 ```
 The msqid argument must be the ID of an existing message queue. 
+
 The msgp  argument is a pointer to a structure that contains the type of the message and its text.
 example of what this user-defined buffer might look like: 
 ```C
