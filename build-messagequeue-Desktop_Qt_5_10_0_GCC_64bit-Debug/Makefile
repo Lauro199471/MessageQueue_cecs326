@@ -50,8 +50,8 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../messagequeue/main.c 
-OBJECTS       = main.o
+SOURCES       = ../messagequeue/Sender.c 
+OBJECTS       = Sender.o
 DIST          = ../../5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../5.10.0/gcc_64/mkspecs/common/unix.conf \
 		../../5.10.0/gcc_64/mkspecs/common/linux.conf \
@@ -215,6 +215,7 @@ DIST          = ../../5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../5.10.0/gcc_64/mkspecs/features/qt_config.prf \
 		../../5.10.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../5.10.0/gcc_64/mkspecs/features/spec_post.prf \
+		../messagequeue/.qmake.stash \
 		../../5.10.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../5.10.0/gcc_64/mkspecs/features/toolchain.prf \
 		../../5.10.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -232,7 +233,7 @@ DIST          = ../../5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../5.10.0/gcc_64/mkspecs/features/exceptions.prf \
 		../../5.10.0/gcc_64/mkspecs/features/yacc.prf \
 		../../5.10.0/gcc_64/mkspecs/features/lex.prf \
-		../messagequeue/messagequeue.pro  ../messagequeue/main.c
+		../messagequeue/messagequeue.pro  ../messagequeue/Sender.c
 QMAKE_TARGET  = messagequeue
 DESTDIR       = 
 TARGET        = messagequeue
@@ -407,6 +408,7 @@ Makefile: ../messagequeue/messagequeue.pro ../../5.10.0/gcc_64/mkspecs/linux-g++
 		../../5.10.0/gcc_64/mkspecs/features/qt_config.prf \
 		../../5.10.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../5.10.0/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../5.10.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../5.10.0/gcc_64/mkspecs/features/toolchain.prf \
 		../../5.10.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -590,6 +592,7 @@ Makefile: ../messagequeue/messagequeue.pro ../../5.10.0/gcc_64/mkspecs/linux-g++
 ../../5.10.0/gcc_64/mkspecs/features/qt_config.prf:
 ../../5.10.0/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../5.10.0/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../5.10.0/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../5.10.0/gcc_64/mkspecs/features/toolchain.prf:
 ../../5.10.0/gcc_64/mkspecs/features/default_pre.prf:
@@ -624,7 +627,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../5.10.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../messagequeue/main.c $(DISTDIR)/
+	$(COPY_FILE) --parents ../messagequeue/Sender.c $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -672,8 +675,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-main.o: ../messagequeue/main.c 
-	$(CC) -c $(CFLAGS) $(INCPATH) -o main.o ../messagequeue/main.c
+Sender.o: ../messagequeue/Sender.c 
+	$(CC) -c $(CFLAGS) $(INCPATH) -o Sender.o ../messagequeue/Sender.c
 
 ####### Install
 

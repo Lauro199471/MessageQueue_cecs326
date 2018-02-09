@@ -41,5 +41,19 @@ int main()
   else
       printf("msgget: msgget succeeded: msqid = %d\n", msgqid);
 
+  // We'll send message type 1
+  sbuf.mtype = 1;
+  strcpy(sbuf.mtext, "Did you get this?");
+  buf_length = strlen(sbuf.mtext) + 1;
+
+  // Send a Message
+  if(msgsnd(msgqid,&sbuf,buf_length,IPC_NOWAIT) < 0)
+  {
+    printf("%d %d, %s, %d\n",msgqid,sbuf.mtype,sbuf.mtext,buf_length);
+    return 1;
+  }
+  else
+      printf("Message: '%s' was sent\n",sbuf.mtext);
+
   return 0;
 }
