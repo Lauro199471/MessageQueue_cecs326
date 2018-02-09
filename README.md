@@ -81,10 +81,42 @@ These actions are as follows:
 
 Upon successful completion, the following actions are taken with respect to the data structure associated with msqid: 
     
-    * msg_qnum is incremented by 1. 
+* msg_qnum is incremented by 1. 
+* msg_lspid is set equal to the process ID of the calling process.
+* msg_stime is set equal to the current time. 
 
-    * msg_lspid is set equal to the process ID of the calling process. 
+## POSIX Messages
+The POSIX message queue functions are:
 
-    * msg_stime is set equal to the current time. 
+**mq_open()** -- Connects to, and optionally creates, a named message queue.
+
+**mq_close()** -- Ends the connection to an open message queue.
+
+**mq_unlink()** -- Ends the connection to an open message queue and causes the queue to be removed when the last process closes it.
+
+**mq_send()** -- Places a message in the queue.
+
+**mq_receive()** -- Receives (removes) the oldest, highest priority message from the queue.
+
+**mq_notify()** -- Notifies a process or thread that a message is available in the queue.
+
+**mq_setattr()** -- Set or get message queue attributes. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
