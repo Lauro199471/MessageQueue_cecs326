@@ -2,11 +2,10 @@
 Interprocess communication and basic coordination using message queue
 ![message](https://user-images.githubusercontent.com/13907836/35985602-db61a2d8-0cab-11e8-9e72-f49e184b447e.gif)(figure 1)
 
-** Notes **
 
-IPC: Inter-processing Communcaiton
+**IPC**: Inter-processing Communcaiton
 
-Message Queue: Two (or more) processes can exchange information via access to a common system message queue. The sending process places via some (OS) message-passing module a message onto a queue which can be read by another process.Each message is given an identification or type so that processes can select the appropriate message. Process must share a common key in order to gain access to the queue in the first place.
+**Message Queue**: Two (or more) processes can exchange information via access to a common system message queue. The sending process places via some (OS) message-passing module a message onto a queue which can be read by another process.Each message is given an identification or type so that processes can select the appropriate message. Process must share a common key in order to gain access to the queue in the first place.
 
 IPC messaging lets processes send and receive messages, and queue messages for processing in an arbitrary order(figure1).
 
@@ -21,7 +20,7 @@ When a message is sent, its text is copied to the message queue. The msgsnd() an
   *The queue is removed
 
 ## Initialising the Message Queue 
-The msgget() function initializes a new message queue or returns the message queue identifier associated with the key parameter for an existing message queue: 
+The **msgget()** function initializes a new message queue or returns the message queue identifier associated with the key parameter for an existing message queue: 
 ```C
 msgget(key_t key, int msgflg):
 ```
@@ -48,7 +47,7 @@ IPC_EXCL (0x00000400): Return an error if the IPC_CREAT flag is set and the mess
 Return value: If successful, the return value will be the message queue identifier (a nonnegative integer , msqid), otherwise -1 with errno indicating the error. 
 
 ## Sending and Receiving Messages 
-The msgsnd() and msgrcv() functions send and receive messages, respectively.
+The **msgsnd()** and **msgrcv()** functions send and receive messages, respectively.
 ```C
 int msgsnd(int msqid, const void *msgp, size_t msgsz,int msgflg);
 int msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,int msgflg);
@@ -60,12 +59,17 @@ example of what this user-defined buffer might look like:
 ```C
  struct mymsg 
  {
-   long mtype;        /* message type */
+   long msgtype;        /* message type */
    char mtext[MSGSZ]; /* message text of length MSGSZ */
  }
 ```
+The msgsz argument specifies the length of the message in bytes. 
 
+The structure member msgtype is the received message's type as specified by the sending process. 
 
+The argument msgflg specifies the action to be taken if one or more of the following are true: 
+
+*
 
 
 
