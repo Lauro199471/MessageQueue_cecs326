@@ -50,8 +50,8 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../Reciever/reciever.c 
-OBJECTS       = reciever.o
+SOURCES       = ../Reciever/Reciever.c 
+OBJECTS       = Reciever.o
 DIST          = ../../../5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../5.10.0/gcc_64/mkspecs/common/unix.conf \
 		../../../5.10.0/gcc_64/mkspecs/common/linux.conf \
@@ -233,7 +233,7 @@ DIST          = ../../../5.10.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../5.10.0/gcc_64/mkspecs/features/exceptions.prf \
 		../../../5.10.0/gcc_64/mkspecs/features/yacc.prf \
 		../../../5.10.0/gcc_64/mkspecs/features/lex.prf \
-		../Reciever/Reciever.pro  ../Reciever/reciever.c
+		../Reciever/Reciever.pro  ../Reciever/Reciever.c
 QMAKE_TARGET  = Reciever
 DESTDIR       = 
 TARGET        = Reciever
@@ -627,7 +627,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../5.10.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Reciever/reciever.c $(DISTDIR)/
+	$(COPY_FILE) --parents ../Reciever/Reciever.c $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -675,8 +675,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-reciever.o: ../Reciever/reciever.c 
-	$(CC) -c $(CFLAGS) $(INCPATH) -o reciever.o ../Reciever/reciever.c
+Reciever.o: ../Reciever/Reciever.c 
+	$(CC) -c $(CFLAGS) $(INCPATH) -o Reciever.o ../Reciever/Reciever.c
 
 ####### Install
 
