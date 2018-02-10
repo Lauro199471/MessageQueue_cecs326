@@ -2,6 +2,8 @@
 Interprocess communication and basic coordination using message queue
 
 A **message queue** is a linked list of messages stored within the kernel and identified by a message queue identifier.
+![capture](https://user-images.githubusercontent.com/13907836/36058957-861ddaa2-0de2-11e8-8593-c5cf9b6b5671.PNG)
+
 
 ![message](https://user-images.githubusercontent.com/13907836/35985602-db61a2d8-0cab-11e8-9e72-f49e184b447e.gif)(figure 1)
 
