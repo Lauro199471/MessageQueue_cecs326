@@ -11,7 +11,7 @@
 #define S_IROTH 4     // Allow others to read from the message queue.
 #define S_IWOTH 2     // Allow others to write to the message queue.
 
-#define MSGSZ 128   // msg text length
+#define MSGSZ 256   // msg text length
 
 // Declare the message structure
 typedef struct msg_buf {
@@ -44,7 +44,7 @@ int main()
 
   // We'll send message type 1
   sbuf.mtype = 1;
-  strcpy(sbuf.mtext, "Did you get this?");
+  strcpy(sbuf.mtext, "Did you get this?adfgadfgaerhaerghqerkgnegbleqjgbleqjhrg;okeqnr;oaegajsdfliuashdfliusahdfasdfasdfasdfasgaergaergaergqergqergqergqergqergh");
   buf_length = strlen(sbuf.mtext) + 1;
 
   // Send a Message
