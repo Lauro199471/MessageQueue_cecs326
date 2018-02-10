@@ -56,7 +56,7 @@ The **msgsnd()** and **msgrcv()** functions send and receive messages, respectiv
 
 **msgsnd()**: New messages are added to the end of a queue
 
-**msgrcv()**:We don’t have to fetch the messages in a first-in, first-out order. Instead, we can fetch messages based on their type field.
+**msgrcv()**: We don’t have to fetch the messages in a first-in, first-out order. Instead, we can fetch messages based on their type field.
 
 ```C
 int msgsnd(int msqid, const void *msgp, size_t msgsz,int msgflg);
