@@ -53,6 +53,11 @@ Return value: If successful, the return value will be the message queue identifi
 
 ## Sending and Receiving Messages 
 The **msgsnd()** and **msgrcv()** functions send and receive messages, respectively.
+
+**msgsnd()**: New messages are added to the end of a queue
+
+**msgrcv()**:We don’t have to fetch the messages in a first-in, first-out order. Instead, we can fetch messages based on their type field.
+
 ```C
 int msgsnd(int msqid, const void *msgp, size_t msgsz,int msgflg);
 int msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,int msgflg);
