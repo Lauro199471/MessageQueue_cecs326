@@ -1,5 +1,10 @@
 # MessageQueue_cecs326
 Interprocess communication and basic coordination using message queue
+
+A **message queue** is a linked list of messages stored within the kernel and identified by a message queue identifier.
+![capture](https://user-images.githubusercontent.com/13907836/36058957-861ddaa2-0de2-11e8-8593-c5cf9b6b5671.PNG)
+
+
 ![message](https://user-images.githubusercontent.com/13907836/35985602-db61a2d8-0cab-11e8-9e72-f49e184b447e.gif)(figure 1)
 
 
@@ -48,6 +53,15 @@ Return value: If successful, the return value will be the message queue identifi
 
 ## Sending and Receiving Messages 
 The **msgsnd()** and **msgrcv()** functions send and receive messages, respectively.
+
+**msgsnd()**: (1) New messages are added to the end of a queue (2) Data is placed on to a message queue
+
+**msgrcv()**: (1) We don’t have to fetch the messages in a first-in, first-out order. Instead, we can fetch messages based on their type field (2) messages are retrieved from a queue
+
+**ftok()**: is use to generate a unique key.
+
+**msgctl()**: It performs various operations on a queue. Generally it is use to 
+destroy message queue.
 ```C
 int msgsnd(int msqid, const void *msgp, size_t msgsz,int msgflg);
 int msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,int msgflg);
