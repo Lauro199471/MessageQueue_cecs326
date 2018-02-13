@@ -44,7 +44,7 @@ int main()
 
   // We'll send message type 1
   sbuf.mtype = 1;
-  strcpy(sbuf.mtext, "Did you get this?adfgadfgaerhaerghqerkgnegbleqjgbleqjhrg;okeqnr;oaegajsdfliuashdfliusahdfasdfasdfasdfasgaergaergaergqergqergqergqergqergh");
+  strcpy(sbuf.mtext, "Did you get this?");
   buf_length = strlen(sbuf.mtext) + 1;
 
   // Send a Message
