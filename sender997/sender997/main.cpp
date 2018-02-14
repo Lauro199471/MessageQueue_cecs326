@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <cstdlib>
+#include <time.h>
+#include "color.h"
 
 #define S_IRUSR 256   // Allow the owner of the message queue to read from it.
 #define S_IWUSR 128   // Allow the owner of the message queue to write to it.
@@ -22,6 +24,7 @@
 #define S_IWOTH 2     // Allow others to write to the message queue.
 
 #define MSGSZ 256   // msg text length
+#define marker 7     // marker for 'event'
 #define running 1
 
 using namespace std;
@@ -36,6 +39,11 @@ typedef struct msg_buf {
 
 int main()
 {
+  bool divisable;
+  int randomNumber;
+  /* initialize random seed: */
+  srand(time(NULL));
+
   message_buffer msgbf;
   size_t buf_length;
 
@@ -45,18 +53,44 @@ int main()
   int mq_ID = msgget(key,msgflag);
 
   // We'll send message type 117
-  msgbf.mtype = 117;
+  msgbf.mtype = 118;
   buf_length = MSGSZ;
 
   // MAIN LOOP
   while(running)
   {
+    randomNumber = rand(); // get a random 32-bit value
+
+    // current date/time based on current system
+    //time_t now = time(0);
+    // convert now to string form
+    //char* dt = ctime(&now);
+
+    // If random number is less then 100 then quit program
+    if(randomNumber <= 100 )
+    {
+        printf("Random Number: %d\n" red "EXITING...\n" reset , randomNumber);
+        return 1;
+    }
+    divisable = ((randomNumber%marker)==0)?1:0;
+    if(divisable == 1)
+    {
+        printf(green "Send MSG\n" reset);
+        strcpy(msgbf.mtext, "Can you hear me?");
+        (void)msgsnd(mq_ID, &msgbf, buf_length, 0);
+        (void)msgrcv(mq_ID,&msgbf,buf_length,msgbf.mtype,0);
+        printf(blue "Recieved MSG(1)\n\n" reset);
+    }
+
+
+
+
+    /*
     strcpy(msgbf.mtext, "Can you hear me?");
     (void)msgsnd(mq_ID, &msgbf, buf_length, 0);
     printf("Sent: %s \n",msgbf.mtext);
     (void)msgrcv(mq_ID,&msgbf,buf_length,msgbf.mtype,0);
-    printf("Recieved: %s \n\n",msgbf.mtext);
-    sleep(1);
+    printf("Recieved: %s \n\n",msgbf.mtext);*/
   }
 
   return 0;
