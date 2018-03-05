@@ -24,7 +24,6 @@
 #define S_IWOTH 2     // Allow others to write to the message queue.
 
 #define MSGSZ 256   // msg text length
-#define marker 7     // marker for 'event'
 #define running 1
 
 using namespace std;
@@ -35,14 +34,19 @@ typedef struct msg_buf {
   char mtext[MSGSZ] = {};
 } message_buffer;
 
-
+void sendMSG(message_buffer* , int , size_t);
 
 int main()
 {
   bool divisable;
   int randomNumber;
+  unsigned int marker;
+  int i = 0;
   /* initialize random seed: */
   srand(time(NULL));
+
+  /* Generate a random marker value */
+  marker = rand() % (RAND_MAX / 4000);
 
   message_buffer msgbf;
   size_t buf_length;
@@ -53,45 +57,54 @@ int main()
   int mq_ID = msgget(key,msgflag);
 
   // We'll send message type 117
-  msgbf.mtype = 118;
+  msgbf.mtype = 117;
   buf_length = MSGSZ;
 
+  cout << "\033[1;31mSender997 pid: " << getpid() << "\033[0m\n\r===================\n\r" << endl;
   // MAIN LOOP
   while(running)
   {
-    randomNumber = rand(); // get a random 32-bit value
+    /* Get a random 32-bit value & check divisible*/
+    randomNumber = rand();
+    cout << randomNumber << "   " << marker << endl;
+    divisable = ((randomNumber % marker) == 0)? 1 : 0;
 
-    // current date/time based on current system
-    //time_t now = time(0);
-    // convert now to string form
-    //char* dt = ctime(&now);
-
-    // If random number is less then 100 then quit program
-    if(randomNumber <= 100 )
+    /* If random number is less then 100 then quit program */
+    if(randomNumber <= 10 )
     {
         printf("Random Number: %d\n" red "EXITING...\n" reset , randomNumber);
         return 1;
     }
-    divisable = ((randomNumber%marker)==0)?1:0;
+
+    /* If divisible send message */
     if(divisable == 1)
     {
-        printf(green "Send MSG\n" reset);
-        strcpy(msgbf.mtext, "Can you hear me?");
-        (void)msgsnd(mq_ID, &msgbf, buf_length, 0);
-        (void)msgrcv(mq_ID,&msgbf,buf_length,msgbf.mtype,0);
-        printf(blue "Recieved MSG(1)\n\n" reset);
+        /*
+        if(i == 5)
+        {
+            system("clear");
+            cout << "\033[1;31mSender997 pid: " << getpid() << "\033[0m\n\r===================\n\r" << endl;
+        }*/
+        sendMSG(&msgbf,mq_ID,buf_length);
+        //i++;
     }
 
-
-
-
-    /*
-    strcpy(msgbf.mtext, "Can you hear me?");
-    (void)msgsnd(mq_ID, &msgbf, buf_length, 0);
-    printf("Sent: %s \n",msgbf.mtext);
-    (void)msgrcv(mq_ID,&msgbf,buf_length,msgbf.mtype,0);
-    printf("Recieved: %s \n\n",msgbf.mtext);*/
-  }
+    if(i == 5)
+    {
+        system("clear");
+        cout << "\033[1;31mSender997 pid: " << getpid() << "\033[0m\n\r===================\n\r" << endl;
+    }
+    i++;
+  }// END LOOP
 
   return 0;
+}
+
+void sendMSG(message_buffer* msgbf, int msgID,size_t buf_length)
+{
+    string s;
+    cout << "Sent msg @\033[1;31m" << getpid() << "\033[0m)\n";
+    s = "Hello @\033[1;31m" + to_string(getpid()) +"\033[0m";
+    strcpy((*msgbf).mtext , s.c_str());
+    (void)msgsnd(msgID,msgbf,buf_length,0);
 }

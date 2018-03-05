@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <cstdlib>
+#include <time.h>
 using namespace std;
 
 
@@ -32,6 +33,7 @@ typedef struct msg_buf {
 int main() {
     message_buffer msgbf;
     size_t buf_length;
+    int i = 0;
 
     // Create a message queue , if returns a negative numbers means error
     key_t key  = 1234;
@@ -42,15 +44,18 @@ int main() {
     msgbf.mtype = 117;
     buf_length = MSGSZ;
 
+    cout << "\033[1;32mReciever1 pid: " << getpid() << "\033[0m\n\r===================\n\r" << endl;
     // MAIN LOOP
     while(running)
     {
       (void)msgrcv(mq_ID,&msgbf,buf_length,msgbf.mtype,0);
       printf("Recieved: %s \n",msgbf.mtext);
-      strcpy(msgbf.mtext, "Yes");
-      (void)msgsnd(mq_ID, &msgbf, buf_length, 0);
-      printf("Sent: %s \n\n",msgbf.mtext);
-    }
+      if(i == 5)
+      {
+          system("clear");
+          cout << "\033[1;32mReciever1 pid: " << getpid() << "\033[0m\n\r===================\n\r" << endl;
+      }
+    }// END LOOP
 
     return 0;
 }
