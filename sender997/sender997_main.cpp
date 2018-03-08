@@ -39,6 +39,7 @@ int main()
   int randomNumber;
   unsigned int marker;
   int i = 0 , event_marker_cntr = 0;
+  bool liveNode_reciever1 = 1 , liveNode_reciever_2 = 1;
   
   /* Title */
   cout << "\033[1;31mSender997 pid: " << getpid() 
@@ -48,7 +49,7 @@ int main()
   srand(time(NULL));
 
   /* Generate a marker value */
-  marker = 200;
+  marker = 2;
 
   message_buffer msgbf;
   size_t buf_length = MSGSZ;
@@ -80,22 +81,35 @@ int main()
       event_marker_cntr++;
       
       cout << "\nSent MSG Total: " << event_marker_cntr << endl;
+      
       /* Send Event to recievers */
       msgbf.mtype = 117;
       sendMSG(&msgbf,mq_ID,buf_length,event_marker_cntr);
       
-      msgbf.mtype = 119;
-      sendMSG(&msgbf,mq_ID,buf_length,event_marker_cntr);
+      if(liveNode_reciever_2 == 1)
+      {
+        msgbf.mtype = 119;
+        sendMSG(&msgbf,mq_ID,buf_length,event_marker_cntr);
+      }
       
       /* Recieve Ack from recievers */
       msgbf.mtype = 121;
       (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
       printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
       
-      msgbf.mtype = 123;
-      (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
-      printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
+      if(liveNode_reciever_2 == 1)
+      {
+        msgbf.mtype = 123;
+        (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
+        printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
+      }
       
+      // Check if died
+      if(strcmp(msgbf.mtext,"died_2") == 0)
+      {
+          // If true means reciever2 is died :(
+          liveNode_reciever_2 = 0;
+      }
     }
   }// END LOOP
 
