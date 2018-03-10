@@ -35,6 +35,8 @@ void sendMSG(message_buffer* , int , size_t);
 
 int main()
 {
+  int nodes = 2;
+  bool liveNode997 = 1, liveNode251 = 1;
   cout << "\033[1;32mReciever1 pid: " << getpid() 
   << "\033[0m\n\r===================\r" << endl;
   
@@ -45,29 +47,43 @@ int main()
   key_t key = 1234;
   int msgflag = IPC_CREAT|S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH;
   int mq_ID = msgget(key, msgflag);
-
-    
   // MAIN LOOP
   while (running)
   {
     // Recieve Message type 117
     msgbf.mtype = 117;
     (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
+    printf("@\033[1;32m%d\033[0m recieved: %s nodes: %d\n\r", 
+            getpid(), msgbf.mtext , nodes);
     
-    // Check who died
-    if(strcmp(msgbf.mtext,"died_997") == 0)
+    // Send Message if (997)
+    if(msgbf.mtext[0] == '(' && msgbf.mtext[1] == '9')
     {
-      cout << "\nDAMN SON :'(" << endl;
+      msgbf.mtype = 500;
+      sendMSG(&msgbf,mq_ID,buf_length);
+    }
+    // Check who died
+    if(strcmp(msgbf.mtext,"died_997") == 0 && liveNode997 == 1)
+    {
+      cout << "\nDAMN SON :'( : 997" << endl;
+      liveNode997 = 0;
+      nodes--;
+    }
+    if(strcmp(msgbf.mtext,"died_251") == 0 && liveNode251 == 1)
+    {
+      cout << "\nDAMN SON :'( : 251" << endl;
+      nodes--;
+      liveNode251 = 0;
+    }
+    if(liveNode251 == 0 && liveNode997 == 0)
+    {
+      cout << "\nDAMN SON :'( : I die" << endl;
       break;
     }
-    else
-      printf("@\033[1;32m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
-    
-    // Send Message
-    msgbf.mtype = 121;
-    sendMSG(&msgbf,mq_ID,buf_length);
   }
-
+  // now safe to delete message queue
+  msgctl (mq_ID, IPC_RMID, NULL);
+  cout << "DONE" << endl;
   return 0;
 }
 

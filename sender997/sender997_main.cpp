@@ -49,7 +49,7 @@ int main()
   srand(time(NULL));
 
   /* Generate a marker value */
-  marker = 2;
+  marker = 49;
 
   message_buffer msgbf;
   size_t buf_length = MSGSZ;
@@ -65,18 +65,18 @@ int main()
     divisable = ((randomNumber % marker) == 0)? 1 : 0;
 
     /* If random number is less then 100 then quit program */
-    if(randomNumber <= 100 )
+    if(randomNumber <= 100)
     {
       printf("\nRandom Number: %d\n" red "EXITING...\n" reset , randomNumber);
       msgbf.mtype = 117;
       deadMSG(&msgbf,mq_ID,buf_length);
-      msgbf.mtype = 119;
-      deadMSG(&msgbf,mq_ID,buf_length);
+      //msgbf.mtype = 119;
+      //deadMSG(&msgbf,mq_ID,buf_length);
       return 1;
     }
 
     /* If divisible send message */
-    if(divisable == 1)
+    else if(divisable == 1)
     {
       event_marker_cntr++;
       
@@ -84,32 +84,33 @@ int main()
       
       /* Send Event to recievers */
       msgbf.mtype = 117;
-      sendMSG(&msgbf,mq_ID,buf_length,event_marker_cntr);
+      string s = "(997) Hello: "+ to_string(event_marker_cntr) +" @\033[1;31m" + to_string(getpid()) +"\033[0m";
+      strcpy(msgbf.mtext , s.c_str());
+      (void)msgsnd(mq_ID,&msgbf,buf_length,0);
       
+      msgbf.mtype = 500;
+      (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
+      printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
+      
+      /*
       if(liveNode_reciever_2 == 1)
       {
         msgbf.mtype = 119;
         sendMSG(&msgbf,mq_ID,buf_length,event_marker_cntr);
       }
-      
-      /* Recieve Ack from recievers */
-      msgbf.mtype = 121;
-      (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
-      printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
-      
       if(liveNode_reciever_2 == 1)
       {
-        msgbf.mtype = 123;
-        (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
-        printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
+        //msgbf.mtype = 121;
+        //(void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
+        //printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
       }
       
       // Check if died
       if(strcmp(msgbf.mtext,"died_2") == 0)
       {
-          // If true means reciever2 is died :(
-          liveNode_reciever_2 = 0;
-      }
+        // If true means reciever2 is died :(
+        //liveNode_reciever_2 = 0;
+      }*/
     }
   }// END LOOP
 
@@ -119,7 +120,7 @@ int main()
 void sendMSG(message_buffer* msgbf, int msgID,size_t buf_length,int i)
 {
   cout << "msg sent @\033[1;31m" << getpid() << "\033[0m\n";
-  string s = "Hello("+ to_string(i) +") @\033[1;31m" + to_string(getpid()) +"\033[0m";
+  string s = "(997) Hello: "+ to_string(i) +" @\033[1;31m" + to_string(getpid()) +"\033[0m";
   strcpy((*msgbf).mtext , s.c_str());
   (void)msgsnd(msgID,msgbf,buf_length,0);
 }

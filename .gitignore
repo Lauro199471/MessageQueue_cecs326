@@ -1,12 +1,4 @@
-/msgQ_A/build/
-/msgQ_A/dist/
 /msgQ_B/dist/
 /msgQ_B/build/
-/sender997/dist/
-/sender997/build/
-/reciever1/build/
-/reciever1/dist/
-/reciever2/dist/
-/reciever2/build/
-/send257/build/
-/send257/dist/
+/msgQ_A/dist/
+/msgQ_A/build/

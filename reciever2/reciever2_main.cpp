@@ -44,7 +44,7 @@ int main()
   // MAIN LOOP
   while (running)
   {
-    // Recieve Message type 117
+    // Recieve Message type 119
     msgbf.mtype = 119;
     (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
     
