@@ -4,7 +4,6 @@
 *     for each message from both receivers before it continues execution       *
 *   - sender generates random numbers (32-bit value)                           *
 *   - Terminates when it gets/observes a random number smaller than 100        *
-*   - Starts Queue                                                             *
 *******************************************************************************/
 
 #include <sys/types.h>

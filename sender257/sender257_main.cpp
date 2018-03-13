@@ -36,7 +36,7 @@ void sendMSG(message_buffer* , int , size_t ,int);
 
 int main() {
   
-    /* Title */
+  /* Title */
   cout << "\033[1;39mSender257 pid: " << getpid() 
   << "\033[0m\n\r===================\r" << endl;
   
@@ -57,7 +57,10 @@ int main() {
   /* Generate a marker value */
   int marker = RAND_MAX/20000;
   
-  msgbf.mtype = 119;
+  /* Reciever reciever 2 pid*/
+  msgbf.mtype = 45;
+  (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
+  pid_t reciever2_pid = (pid_t)(atoi(msgbf.mtext));
   
   while(running)
   {
@@ -65,18 +68,18 @@ int main() {
     randomNumber = rand();
     divisable = ((randomNumber % marker) == 0)? 1 : 0;
     
-
+    //check if reciever 2 died
+    if (getpgid(reciever2_pid) < 0)
+    {
+        break;
+    }
     
     // Regular MSG
     if(divisable)
     {
+      msgbf.mtype = 119;
       sendMSG(&msgbf,mq_ID,buf_length,event_counter);
       event_counter++;
-    }
-    
-    if(event_counter == 5001)
-    {
-      break;
     }
   }
   
@@ -87,6 +90,7 @@ int main() {
 
 void sendMSG(message_buffer* msgbf, int msgID,size_t buf_length,int i)
 {
+  cout << "msg sent @\033[1;39m" << getpid() << "\033[0m\n";
   string s = "(257) Hello: "+ to_string(i) +" @\033[1;39m" + to_string(getpid()) 
            +"\033[0m";
   strcpy((*msgbf).mtext , s.c_str());
