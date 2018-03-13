@@ -48,7 +48,6 @@ int main()
   size_t buf_length;
   
   key_t key = 1234;
-  //int msgflag = IPC_CREAT|S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH;
   int mq_ID = msgget(key, 0);
 
   buf_length = MSGSZ;
@@ -70,27 +69,17 @@ int main()
       // Let sender997 know its done
       msgbf.mtype = 502;
       deadMSG(&msgbf,mq_ID,buf_length);
-      
-      // Let sender257 know its done
-      //msgbf.mtype = 23;
-      //deadMSG(&msgbf,mq_ID,buf_length); 
-      
       break;
     }
+
     printf("@\033[1;33m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
     
     // Send Message to 997
     msgbf.mtype = 502;
     sendMSG(&msgbf,mq_ID,buf_length);
     
-    // Send Message to 257
-    //msgbf.mtype = 23;
-    //sendMSG(&msgbf,mq_ID,buf_length);
-    
     event_counter = event_counter + 1;
   }
-  
-  cout << "\n\n\rDONE\n";
   
   return 0;
 }
