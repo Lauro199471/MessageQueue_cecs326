@@ -26,6 +26,7 @@ using namespace std;
 
 #define MSGSZ 256 // msg text length
 #define running 1
+#define HOLD 1
 
 // Declare the message structure
 typedef struct msg_buf
@@ -84,9 +85,9 @@ int main()
       break;
     }
   }
-  // now safe to delete message queue
-  msgctl (mq_ID, IPC_RMID, NULL);
-  cout << "DONE" << endl;
+  
+  cout << "\n\n\r DONE";
+  while(HOLD);
   return 0;
 }
 

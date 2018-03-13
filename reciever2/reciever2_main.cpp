@@ -18,6 +18,7 @@ using namespace std;
 
 #define MSGSZ 256 // msg text length
 #define running 1
+#define HOLD 1
 
 // Declare the message structure
 typedef struct msg_buf
@@ -50,24 +51,28 @@ int main()
     msgbf.mtype = 119;
     (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
     
-    /* Check after 5000 msgs have passed */
-    if(event_counter == 5000)
+    // Check after 5000 msgs have passed 
+    if(event_counter == 5001)
     {
       // Let sender997 know its done
       msgbf.mtype = 502;
       deadMSG(&msgbf,mq_ID,buf_length);
       
-      cout << "\nDAMN SON :'(" << endl;
       break;
     }
     printf("@\033[1;33m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
     
-    // Send Message
-    msgbf.mtype = 502;
-    sendMSG(&msgbf,mq_ID,buf_length);
+    // Send Message if 997
+    if(msgbf.mtext[0] == '(' && msgbf.mtext[1] == '9')
+    {
+      msgbf.mtype = 502;
+      sendMSG(&msgbf,mq_ID,buf_length);
+    }
     event_counter = event_counter + 1;
   }
-
+  
+  cout << "\n\n\rDONE\n";
+  while(HOLD);
   return 0;
 }
 

@@ -20,6 +20,7 @@
 
 #define MSGSZ 256   // msg text length
 #define running 1
+#define HOLD 1
 
 using namespace std;
 
@@ -37,7 +38,6 @@ int main()
 {
   bool divisable;
   int randomNumber;
-  unsigned int marker;
   int i = 0 , event_marker_cntr = 0;
   bool liveNode_reciever1 = 1 , liveNode_reciever_2 = 1;
   
@@ -49,7 +49,7 @@ int main()
   srand(time(NULL));
 
   /* Generate a marker value */
-  marker = 49;
+  int marker = RAND_MAX/20000000;
 
   message_buffer msgbf;
   size_t buf_length = MSGSZ;
@@ -67,10 +67,10 @@ int main()
     /* If random number is less then 100 then quit program */
     if(randomNumber <= 100)
     {
-      printf("\nRandom Number: %d\n" red "EXITING...\n" reset , randomNumber);
+      printf("\nRandom Number: %d\n" red "DONE\n" reset , randomNumber);
       msgbf.mtype = 117;
       deadMSG(&msgbf,mq_ID,buf_length);
-      return 1;
+      break;
     }
 
     /* If divisible send message */
@@ -111,7 +111,9 @@ int main()
       }
     }
   }// END LOOP
-
+  
+  cout << "\n\n\r DONE";
+  while(HOLD);
   return 0;
 }
 
