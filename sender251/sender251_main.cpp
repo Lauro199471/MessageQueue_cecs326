@@ -1,3 +1,10 @@
+/*******************************************************************************
+* 251 sender                                                                   *
+*   - sends each event to receiver(1)                                          *
+*   - sender generates random numbers (32-bit value)                           *
+*   - Terminates when it gets/observes a SIGUSR1                               *
+*******************************************************************************/
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -19,6 +26,7 @@
 using namespace std;
 
 bool signl = 0;
+
 // Declare the message structure
 typedef struct msg_buf 
 {
@@ -73,6 +81,7 @@ int main()
       deadMSG(&msgbf,mq_ID,buf_length);
       break;
     }
+    // Regular MSG
     if(divisable)
     {
       sendMSG(&msgbf,mq_ID,buf_length,event_counter);

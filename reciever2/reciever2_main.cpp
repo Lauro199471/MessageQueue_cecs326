@@ -1,5 +1,7 @@
 /******************************************************************************
-* - Reciever 2
+* Reciever 2                                                                  *
+*   - recieves from sender 997 and sender 257                                 *
+*   - sends acknowledgement to 997                                            *
 *******************************************************************************/
 
 #include <sys/types.h>
@@ -48,21 +50,20 @@ int main()
     msgbf.mtype = 119;
     (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
     
-    // Check after 5000 msgs have passed
+    /* Check after 5000 msgs have passed */
     if(event_counter == 5000)
     {
       // Let sender997 know its done
-      msgbf.mtype = 123;
+      msgbf.mtype = 502;
       deadMSG(&msgbf,mq_ID,buf_length);
       
       cout << "\nDAMN SON :'(" << endl;
       break;
     }
-    else
-      printf("@\033[1;33m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
+    printf("@\033[1;33m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
     
     // Send Message
-    msgbf.mtype = 123;
+    msgbf.mtype = 502;
     sendMSG(&msgbf,mq_ID,buf_length);
     event_counter = event_counter + 1;
   }

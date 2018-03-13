@@ -70,8 +70,6 @@ int main()
       printf("\nRandom Number: %d\n" red "EXITING...\n" reset , randomNumber);
       msgbf.mtype = 117;
       deadMSG(&msgbf,mq_ID,buf_length);
-      //msgbf.mtype = 119;
-      //deadMSG(&msgbf,mq_ID,buf_length);
       return 1;
     }
 
@@ -84,33 +82,33 @@ int main()
       
       /* Send Event to recievers */
       msgbf.mtype = 117;
-      string s = "(997) Hello: "+ to_string(event_marker_cntr) +" @\033[1;31m" + to_string(getpid()) +"\033[0m";
-      strcpy(msgbf.mtext , s.c_str());
-      (void)msgsnd(mq_ID,&msgbf,buf_length,0);
-      
-      msgbf.mtype = 500;
-      (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
-      printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
-      
-      /*
+      sendMSG(&msgbf,mq_ID,buf_length,event_marker_cntr);
+       /* Check if we can send to reciever 2  */
       if(liveNode_reciever_2 == 1)
       {
         msgbf.mtype = 119;
         sendMSG(&msgbf,mq_ID,buf_length,event_marker_cntr);
       }
+      
+      /* Recieve acknowlegment from recievers */
+      msgbf.mtype = 500;
+      (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
+      printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
+      
+      /* Check if we can recieve to reciever 2  */
       if(liveNode_reciever_2 == 1)
       {
-        //msgbf.mtype = 121;
-        //(void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
-        //printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
+        msgbf.mtype = 502;
+        (void)msgrcv(mq_ID, &msgbf, buf_length, msgbf.mtype, 0);
+        printf("@\033[1;31m%d\033[0m recieved: %s \n\r", getpid(), msgbf.mtext);
       }
       
-      // Check if died
+      // Check if reciever 2 died
       if(strcmp(msgbf.mtext,"died_2") == 0)
       {
         // If true means reciever2 is died :(
-        //liveNode_reciever_2 = 0;
-      }*/
+        liveNode_reciever_2 = 0;
+      }
     }
   }// END LOOP
 

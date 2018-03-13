@@ -1,5 +1,8 @@
 /******************************************************************************
-* - Reciever 1
+* Reciever 1                                                                  *
+*   - starts queue and ends it                                                *
+*   - recieves from sender 997 and sender 251                                 *
+*   - sends acknowledgement to 997                                            *
 *******************************************************************************/
 
 #include <sys/types.h>
