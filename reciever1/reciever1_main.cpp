@@ -86,6 +86,7 @@ int main()
     }
   }
   
+  msgctl(mq_ID,IPC_RMID,NULL);
   cout << "\n\n\r DONE";
   while(HOLD);
   return 0;
